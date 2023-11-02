@@ -18,7 +18,7 @@ let location = config.region;
  * @param {string} targetLanguage - The target language to translate the text into.
  * @return {Promise<string>} A promise that resolves to the translated text in JSON format.
  */
-async function translate(text, targetLanguage) {
+async function translate_async(text, targetLanguage) {
     try {
         const response = await axios({
             baseURL: endpoint,
@@ -41,14 +41,23 @@ async function translate(text, targetLanguage) {
             responseType: 'json'
         });
         
-        return JSON.stringify(response.data, null, 4);
+        return response.data[0].translations[0].text;
     } catch (error) {
-        // Handle errors here, e.g., by returning an error message or throwing an exception.
         console.error("Translation error:", error);
         return "Translation failed";
     }
 }
 
+class Translator {
+    constructor() {
+        this.target = "en"
+    }
+
+    async translate(text) {
+        return await translate_async(text, this.target)
+    }
+}
 
 
-module.exports = { translate }
+
+module.exports = { Translator }
