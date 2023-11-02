@@ -1,0 +1,15 @@
+{
+  "name": "safebreach_chuckbot",
+  "version": "1.0.0",
+  "description": "\"chuck doesn't learn languages, he speaks english and your ear translates\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Ronen Margolin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "uuid": "^9.0.1"
+  }
+}
