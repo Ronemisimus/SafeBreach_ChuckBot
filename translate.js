@@ -49,4 +49,6 @@ async function translate(text, targetLanguage) {
     }
 }
 
+
+
 module.exports = { translate }

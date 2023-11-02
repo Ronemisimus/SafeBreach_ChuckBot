@@ -1,12 +1,19 @@
 const translate = require('./translate.js')
+const languageManager = require('./languageManager.js')
 
 async function main(){
-    try {
-        const translation = await translate.translate('מה הולך?', 'en');
-        console.log(translation);
-    }catch(error){
-        console.error("Translation error:", error);
+
+    const manager = new languageManager.LanguageManager()
+
+    try{
+        await Promise.all([manager.init()]);
     }
+    catch (err){
+        console.log(err);
+        return;
+    }
+
+    console.log(manager.getLanguageCode("hebrew"))
 }
 
 main()
