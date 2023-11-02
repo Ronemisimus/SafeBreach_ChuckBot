@@ -9,9 +9,12 @@
   "author": "Ronen Margolin",
   "license": "ISC",
   "dependencies": {
+    "2captcha": "^3.0.7",
     "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^21.5.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "uuid": "^9.0.1"
   }
 }
