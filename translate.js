@@ -1,7 +1,7 @@
 const config = require('./config.js');
 
 const axios = require('axios').default;
-    
+
 const { v4: uuidv4 } = require('uuid');
 
 let key = config.translator_api_key;
@@ -40,7 +40,7 @@ async function translate_async(text, targetLanguage) {
             }],
             responseType: 'json'
         });
-        
+
         return response.data[0].translations[0].text;
     } catch (error) {
         console.error("Translation error:", error);

@@ -10,21 +10,21 @@ class LanguageManager {
     }
 
     async init() {
-        try{
-            const response = await axios.get("https://api.cognitive.microsofttranslator.com/languages", 
-            {
-                params: {
-                    'api-version': '3.0',
-                }
+        try {
+            const response = await axios.get("https://api.cognitive.microsofttranslator.com/languages",
+                {
+                    params: {
+                        'api-version': '3.0',
+                    }
 
-            });
+                });
             this.avaliable_languages = response.data.translation
             this.createLanguageMaps()
         }
-        catch (err){
+        catch (err) {
             console.log(err);
             throw err
-        }   
+        }
     }
 
     createLanguageMaps() {
@@ -45,6 +45,15 @@ class LanguageManager {
         language_name = language_name.toLowerCase()
         if (this.language_to_code[language_name]) {
             return this.language_to_code[language_name]
+        }
+        else {
+            return null
+        }
+    }
+
+    getLanguageName(language_code) {
+        if (this.code_to_language[language_code]) {
+            return this.code_to_language[language_code]
         }
         else {
             return null
