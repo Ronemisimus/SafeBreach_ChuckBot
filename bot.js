@@ -10,6 +10,8 @@ const bot = new TelegramBot(token, { polling: true });
 
 async function init(translator, englishTranslator, jokesManager, languageCodeManager) {
 
+    bot.setWebHook(config.webhook);
+
     const patterns = {
         language: /^(s|S)(e|E)(t|T) (l|L)(a|A)(n|N)(g|G)(u|U)(a|A)(g|G)(e|E) (.+)/,
         start: /^\/start$/,
