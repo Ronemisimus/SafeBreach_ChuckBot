@@ -1,7 +1,7 @@
-const translate = require('./translate.js')
-const languageManager = require('./languageManager.js')
-const JokeManager = require('./jokeManager.js')
-const bot = require('./bot.js')
+import  translate from './translate.js'
+import languageManager from './languageManager.js'
+import JokeManager from './jokeManager.js'
+import bot from './bot.js'
 
 async function main() {
 
@@ -13,7 +13,6 @@ async function main() {
         await Promise.all([manager.init(), jokes.init()]);
     }
     catch (err) {
-        console.log(err);
         return;
     }
 

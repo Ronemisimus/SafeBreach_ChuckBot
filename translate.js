@@ -1,15 +1,15 @@
-const config = require('./config.js');
+import config from './config.js';
 
-const axios = require('axios').default;
+import axios from 'axios';
 
-const { v4: uuidv4 } = require('uuid');
+import { v4 as uuidv4 } from 'uuid';
 
-let key = config.translator_api_key;
-let endpoint = config.entrypoint;
+const key = config.translator_api_key;
+const endpoint = config.entrypoint;
 
 // location, also known as region.
 // required if you're using a multi-service or regional (not global) resource. It can be found in the Azure portal on the Keys and Endpoint page.
-let location = config.region;
+const location = config.region;
 
 /**
  * Translates the given text to the specified target language using the Microsoft Translator API.
@@ -60,4 +60,5 @@ class Translator {
 
 
 
-module.exports = { Translator }
+const translate = { Translator }
+export default translate

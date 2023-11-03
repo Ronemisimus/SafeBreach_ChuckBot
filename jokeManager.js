@@ -1,10 +1,10 @@
 const source = "https://parade.com/968666/parade/chuck-norris-jokes"
 
-const puppeteer = require('puppeteer-extra')
+import puppeteer from 'puppeteer-extra'
 // Add stealth plugin and use defaults 
-const pluginStealth = require('puppeteer-extra-plugin-stealth')
-const { executablePath } = require('puppeteer');
-const cheerio = require('cheerio')
+import pluginStealth from 'puppeteer-extra-plugin-stealth'
+import { executablePath } from 'puppeteer';
+import { load } from 'cheerio'
 
 class JokeManager {
     constructor() {
@@ -34,7 +34,7 @@ class JokeManager {
                 'accept-language': 'en-US,en;q=0.9,en;q=0.8'
             });
 
-            await page.waitForTimeout(1000)
+            await new Promise(r => setTimeout(r, 1000));
 
             await page.goto(source);
 
@@ -45,7 +45,6 @@ class JokeManager {
             this.proccess(html)
         }
         catch (err) {
-            console.log(err);
             throw err
         }
     }
@@ -60,7 +59,7 @@ class JokeManager {
 
 
     proccess(html) {
-        const $ = cheerio.load(html)
+        const $ = load(html)
 
         $('ol li').each((index, element) => {
             this.avaliable_jokes.push($(element).text())
@@ -68,6 +67,8 @@ class JokeManager {
     }
 }
 
-module.exports = {
+const Joke = {
     JokeManager
 }
+
+export default Joke

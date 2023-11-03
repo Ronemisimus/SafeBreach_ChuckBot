@@ -1,7 +1,7 @@
 // gets and manages supported languages and language codes
 // allows to translate language name to language code
 
-const { default: axios } = require("axios")
+import { default as axios } from "axios"
 
 
 class LanguageManager {
@@ -22,7 +22,6 @@ class LanguageManager {
             this.createLanguageMaps()
         }
         catch (err) {
-            console.log(err);
             throw err
         }
     }
@@ -65,6 +64,8 @@ class LanguageManager {
     }
 }
 
-module.exports = {
+const language = {
     LanguageManager
 }
+
+export default language
