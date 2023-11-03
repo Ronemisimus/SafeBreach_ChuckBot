@@ -12,6 +12,7 @@ class JokeManager {
     }
 
     async init() {
+        console.log('Initializing jokes manager...')
         try {
             puppeteer.use(pluginStealth())
             const browser = await puppeteer.launch({ headless: true, executablePath: executablePath() });
@@ -43,8 +44,10 @@ class JokeManager {
             await browser.close();
 
             this.proccess(html)
+            console.log('Jokes manager initialized')
         }
         catch (err) {
+            console.log('Jokes manager error:', err)
             throw err
         }
     }

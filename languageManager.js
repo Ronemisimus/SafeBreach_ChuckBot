@@ -10,6 +10,8 @@ class LanguageManager {
     }
 
     async init() {
+
+        console.log('Initializing language manager...')
         try {
             const response = await axios.get("https://api.cognitive.microsofttranslator.com/languages",
                 {
@@ -18,12 +20,15 @@ class LanguageManager {
                     }
 
                 });
+            console.log('Language manager response:', response.data)
             this.avaliable_languages = response.data.translation
             this.createLanguageMaps()
         }
         catch (err) {
+            console.log('Language manager error:', err)
             throw err
         }
+        console.log('Language manager initialized')
     }
 
     createLanguageMaps() {

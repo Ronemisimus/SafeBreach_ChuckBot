@@ -10,6 +10,8 @@ async function main() {
     const englishTranslator = new translate.Translator()
     const jokes = new JokeManager.JokeManager()
 
+    console.log("Initializing...")
+
     try {
         await Promise.all([manager.init(), jokes.init()]);
     }
