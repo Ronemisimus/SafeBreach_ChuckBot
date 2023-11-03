@@ -8,8 +8,7 @@ const token = config.telegram_bot_token;
 const bot = new TelegramBot(token, { polling: true });
 
 
-
-async function init(translator, jokesManager, languageCodeManager) {
+async function init(translator, englishTranslator, jokesManager, languageCodeManager) {
 
     const patterns = {
         language: /^(s|S)(e|E)(t|T) (l|L)(a|A)(n|N)(g|G)(u|U)(a|A)(g|G)(e|E) (.+)/,
@@ -27,74 +26,68 @@ async function init(translator, jokesManager, languageCodeManager) {
 
     const supportedLanguages = languageCodeManager.getSupportedLanguages();
 
-    // on language command check if language is supported and set if it is
-    // otherwise send error and show supported languages
-    bot.onText(patterns.language, (msg, match) => {
-        // 'msg' is the received Message from Telegram
-        // 'match' is the result of executing the regexp above on the text content
-        // of the message
 
-        const chatId = msg.chat.id;
-        const resp = match[12]; // the captured "whatever"
-
-        // Get the list of supported languages
+    async function setLanguage(msg, chatId){
     
-
-        const lang_code = languageCodeManager.getLanguageCode(resp)
-        if (!lang_code) {
-            bot.sendMessage(chatId, "The language you chose is not supported. mabye the name is wrong\n" +
-                "here are the supported languages:")
-            const groupSize = 10;
-            for (let i = 0; i < supportedLanguages.length; i += groupSize) {
-                const group = supportedLanguages.slice(i, i + groupSize);
-                const message = group.join('\n');
-                // Send the message for each group of languages
-                bot.sendMessage(chatId, message);
+            const match = msg.match(patterns.language)
+            const resp = match[12]; // the captured "whatever"
+    
+            const lang_code = languageCodeManager.getLanguageCode(resp)
+            if (!lang_code) {
+                bot.sendMessage(chatId, await translator.translate("The language you chose is not supported. maybe the name is wrong\n" +
+                    "here are the supported languages:"))
+                const groupSize = 10;
+                for (let i = 0; i < supportedLanguages.length; i += groupSize) {
+                    const group = supportedLanguages.slice(i, i + groupSize);
+                    const message = group.join('\n');
+                    // Send the message for each group of languages
+                    bot.sendMessage(chatId, message);
+                }
+                return;
             }
-            return;
-        }
-        translator.target = lang_code
-        bot.sendMessage(chatId, `Language set to ${languageCodeManager.getLanguageName(lang_code)}`)
-    });
+            translator.target = lang_code
+            bot.sendMessage(chatId, await translator.translate(`No problem: Language set to ${languageCodeManager.getLanguageName(lang_code)}`))
+    }
 
-    // on start send start message
-    bot.onText(patterns.start, (msg) => {
-        const chatId = msg.chat.id
-        bot.sendMessage(chatId, help_massage)
-    });
+    async function help(chatId){
+        bot.sendMessage(chatId, await translator.translate(help_massage))
+    }
 
-    // on help send help message
-    bot.onText(patterns.help, (msg) => {
-        bot.sendMessage(msg.chat.id, help_massage)
-    })
-
-    // on number: check range, get joke, translate, and send
-    bot.onText(patterns.number, async (msg, match) => {
-        // 'msg' is the received Message from Telegram
-        // 'match' is the result of executing the regexp above on the text content
-        // of the message
-
-        const chatId = msg.chat.id;
+    async function jokeNumber(msg, chatId){
+        const match = msg.match(patterns.number)
         const resp = match[0]; // the captured "whatever"
 
         if (resp > jokesManager.getAmount() ||
         resp < 1 ){
-            bot.sendMessage(chatId, `The number you entered is not supported. it must be in the range: [1-${jokesManager.getAmount()}]`)
+            bot.sendMessage(chatId, await translator.translate(
+                `The number you entered is not supported. it must be in the range: [1-${jokesManager.getAmount()}]`))
             return;
         }
 
-        const translatedText = await translator.translate(jokesManager.getJoke(resp))
+        const translatedText = await translator.translate(`${resp}. ` +jokesManager.getJoke(resp))
         bot.sendMessage(chatId, translatedText)
-
-    })
+    }
 
     // any message not in patterns will be processed as error
-    bot.on('message', (msg) => {
-        if (Object.values(patterns).some(pattern => pattern.test(msg.text))) {
+    bot.on('message', async (msg) => {
+        const english_msg = await englishTranslator.translate(msg.text)
+        const chatId = msg.chat.id;
+        if (Object.values(patterns).some(pattern => pattern.test(english_msg))) {
+            if (english_msg.match(patterns.language)) {
+                setLanguage(english_msg, chatId)
+            }
+            else if (english_msg.match(patterns.start)) {
+                help(chatId)
+            }
+            else if (english_msg.match(patterns.help)) {
+                help(chatId)
+            }
+            else if (english_msg.match(patterns.number)) {
+                jokeNumber(english_msg, chatId)
+            }
             return;
         }
-        const chatId = msg.chat.id;
-        bot.sendMessage(chatId, `Sorry, I can't process that. Please enter help to see the options`);
+        bot.sendMessage(chatId, await translator.translate(`Sorry, I can't process that. Please enter help to see the options`));
     });
 }
 

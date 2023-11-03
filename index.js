@@ -7,6 +7,7 @@ async function main() {
 
     const manager = new languageManager.LanguageManager()
     const translator = new translate.Translator()
+    const englishTranslator = new translate.Translator()
     const jokes = new JokeManager.JokeManager()
 
     try {
@@ -16,7 +17,7 @@ async function main() {
         return;
     }
 
-    bot.init(translator, jokes, manager)
+    bot.init(translator, englishTranslator, jokes, manager)
 
 }
 
