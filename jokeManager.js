@@ -38,8 +38,6 @@ class JokeManager {
 
             await page.goto(source);
 
-            await page.screenshot({ path: 'image.png', fullPage: true });
-
             const html = await page.content();
 
             await browser.close();
