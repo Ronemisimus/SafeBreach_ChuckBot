@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "\"chuck doesn't learn languages, he speaks english and your ear translates\"",
   "main": "index.js",
-  "scripts": {
-    "test": "node index.js"
+  "scripts": { 
+    "dev": "node index.js"
   },
   "author": "Ronen Margolin",
   "license": "ISC",
