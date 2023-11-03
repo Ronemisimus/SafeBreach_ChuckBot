@@ -16,10 +16,21 @@ async function main(){
         return;
     }
 
-    translator.target = manager.getLanguageCode("Hebrew")
-    const text = await translator.translate("hello world")
+    translator.target = manager.getLanguageCode("chinese simplified a")
+    if (!translator.target) {
+        console.log("The language you chose is not supported. mabye the name is wrong")
+        console.log("here are the supported languages:")
+        console.table(manager.getSupportedLanguages())
+    }
+    else {
+        const text = await translator.translate(
+            jokes.getJoke(
+                Math.round( Math.random() *  (jokes.getAmount() - 1) ) + 1
+                )
+            )
 
-    console.log(text)
+        console.log(text)
+    }
 }
 
 main()

@@ -14,7 +14,7 @@ class JokeManager {
     async init() {
         try{
             puppeteer.use(pluginStealth())
-            const browser = await puppeteer.launch({ headless:false, executablePath: executablePath() });
+            const browser = await puppeteer.launch({ headless:true, executablePath: executablePath() });
             const page = await browser.newPage();
             
             await page.setRequestInterception(true); 
@@ -42,7 +42,7 @@ class JokeManager {
 
             await browser.close();
 
-            this.avaliable_jokes = this.proccess(html)
+            this.proccess(html)
         }
         catch (err){
             console.log(err);
@@ -51,15 +51,20 @@ class JokeManager {
     }
 
     getJoke(index) {
-        return this.avaliable_jokes[index]        
+        return this.avaliable_jokes[index-1]        
+    }
+
+    getAmount() {
+        return this.avaliable_jokes.length
     }
     
 
     proccess(html) {
         const $ = cheerio.load(html)
         
-        console.log("jokes")
-
+        $('ol li').each((index, element) => {
+            this.avaliable_jokes.push($(element).text())
+        });
     }
 }
 

@@ -50,6 +50,10 @@ class LanguageManager {
             return null
         }
     }
+
+    getSupportedLanguages() {
+        return Object.keys(this.language_to_code)
+    }
 }
 
 module.exports = {
