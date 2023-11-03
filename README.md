@@ -15,7 +15,7 @@ ChuckBot is a Telegram bot that provides hard cold facts about Chuck Norris with
 3. ChuckBot will respond with a joke or fact, ensuring a good laugh.
 
 ## Screenshot
-![ChuckBot Conversation]()
+![ChuckBot Conversation](https://raw.githubusercontent.com/Ronemisimus/SafeBreach_ChuckBot/main/chat_screenshot.jpeg)
 
 ## Deployment
 ChuckBot is deployed on an Azure virtual machine. You can set up your own instance by following these steps:
