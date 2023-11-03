@@ -20,7 +20,6 @@ class LanguageManager {
                     }
 
                 });
-            console.log('Language manager response:', response.data)
             this.avaliable_languages = response.data.translation
             this.createLanguageMaps()
         }

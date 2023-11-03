@@ -20,6 +20,7 @@ const location = config.region;
  */
 async function translate_async(text, targetLanguage) {
     try {
+        console.log(`Translating text... ${text} to ${targetLanguage}`);
         const response = await axios({
             baseURL: endpoint,
             url: '/translate',
@@ -32,7 +33,6 @@ async function translate_async(text, targetLanguage) {
             },
             params: {
                 'api-version': '3.0',
-                'from': '',
                 'to': [targetLanguage]
             },
             data: [{
@@ -40,7 +40,7 @@ async function translate_async(text, targetLanguage) {
             }],
             responseType: 'json'
         });
-
+        console.log(`Translation successful: ${response.data[0].translations[0].text}`);
         return response.data[0].translations[0].text;
     } catch (error) {
         console.error("Translation error:", error);

@@ -15,7 +15,7 @@ class JokeManager {
         console.log('Initializing jokes manager...')
         try {
             puppeteer.use(pluginStealth())
-            const browser = await puppeteer.launch({ headless: true, executablePath: '/snap/bin/chromium' });
+            const browser = await puppeteer.launch({ headless: true, executablePath: executablePath() });
             const page = await browser.newPage();
 
             await page.setRequestInterception(true);
