@@ -12,6 +12,13 @@ async function init(translator, englishTranslator, jokesManager, languageCodeMan
 
     bot.setWebHook(config.webhook);
 
+    console.log('Webhook set');
+
+
+    bot.getWebHookInfo().then((info) => {
+        console.log('Webhook info:', info);
+    })
+
     const patterns = {
         language: /^(s|S)(e|E)(t|T) (l|L)(a|A)(n|N)(g|G)(u|U)(a|A)(g|G)(e|E) (.+)/,
         start: /^\/start$/,
@@ -28,6 +35,9 @@ async function init(translator, englishTranslator, jokesManager, languageCodeMan
 
     const supportedLanguages = languageCodeManager.getSupportedLanguages();
 
+    console.log(`languages supported: ${supportedLanguages.length}`)
+
+    console.log(`jokes loaded: ${jokesManager.getAmount()}`)
 
     async function setLanguage(msg, chatId){
     
@@ -72,6 +82,7 @@ async function init(translator, englishTranslator, jokesManager, languageCodeMan
 
     // any message not in patterns will be processed as error
     bot.on('message', async (msg) => {
+        console.log(`handling message: ${msg.text} time ${new Date()}`)
         const english_msg = await englishTranslator.translate(msg.text)
         const chatId = msg.chat.id;
         if (Object.values(patterns).some(pattern => pattern.test(english_msg))) {
@@ -91,6 +102,8 @@ async function init(translator, englishTranslator, jokesManager, languageCodeMan
         }
         bot.sendMessage(chatId, await translator.translate(`Sorry, I can't process that. Please enter help to see the options`));
     });
+
+    console.log('Bot started');
 }
 
 const _bot = {
