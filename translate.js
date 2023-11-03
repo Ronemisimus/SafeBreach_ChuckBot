@@ -33,14 +33,14 @@ async function translate_async(text, targetLanguage) {
             },
             params: {
                 'api-version': '3.0',
-                'to': [targetLanguage]
+                'to': targetLanguage
             },
             data: [{
                 'text': text
             }],
             responseType: 'json'
         });
-        console.log(`Translation successful: ${response.data[0].translations[0].text}`);
+        console.log(`Translation successful: ${response.request.toString()}`);
         return response.data[0].translations[0].text;
     } catch (error) {
         console.error("Translation error:", error);
