@@ -21,6 +21,18 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Set Environment Variables
+        env:
+          TRANSLATOR_API_KEY: ${{ secrets.TRANSLATOR_API_KEY }}
+          REGION: ${{ secrets.REGION }}
+          ENTRYPOINT: ${{ secrets.ENTRYPOINT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          echo "TRANSLATOR_API_KEY=$TRANSLATOR_API_KEY" >> $GITHUB_ENV
+          echo "REGION=$REGION" >> $GITHUB_ENV
+          echo "ENTRYPOINT=$ENTRYPOINT" >> $GITHUB_ENV
+          echo "TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN" >> $GITHUB_ENV
+
       - name: npm install, build, and test
         run: |
           npm install
